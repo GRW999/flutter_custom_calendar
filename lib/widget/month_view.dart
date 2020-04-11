@@ -43,7 +43,7 @@ class _MonthViewState extends State<MonthView>
     super.initState();
     extraDataMap = widget.configuration.extraDataMap;
     DateModel firstDayOfMonth =
-        DateModel.fromDateTime(DateTime(widget.year, widget.month, 1));
+    DateModel.fromDateTime(DateTime(widget.year, widget.month, 1));
     if (CacheData.getInstance().monthListCache[firstDayOfMonth]?.isNotEmpty ==
         true) {
       LogUtil.log(TAG: this.runtimeType, message: "缓存中有数据");
@@ -99,7 +99,7 @@ class _MonthViewState extends State<MonthView>
     LogUtil.log(TAG: this.runtimeType, message: "_MonthViewState build");
 
     CalendarProvider calendarProvider =
-        Provider.of<CalendarProvider>(context, listen: false);
+    Provider.of<CalendarProvider>(context, listen: false);
     CalendarConfiguration configuration =
         calendarProvider.calendarConfiguration;
 
@@ -167,15 +167,17 @@ class ItemContainerState extends State<ItemContainer> {
   void initState() {
     super.initState();
     dateModel = widget.dateModel;
-    isSelected = ValueNotifier(dateModel.isSelected);
 
 //    先注释掉这段代码
-//    WidgetsBinding.instance.addPostFrameCallback((callback) {
-//      if (configuration.selectMode == CalendarConstants.MODE_SINGLE_SELECT &&
-//          dateModel.isSelected) {
-//        calendarProvider.lastClickItemState = this;
-//      }
-//    });
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      if (configuration.selectMode == CalendarConstants.MODE_SINGLE_SELECT &&
+          configuration.showMode ==
+              CalendarConstants.MODE_SHOW_MONTH_AND_WEEK &&
+          dateModel.isSelected) {
+        calendarProvider.lastClickItemState = this;
+        isSelected = ValueNotifier(dateModel.isSelected);
+      }
+    });
   }
 
   /**
