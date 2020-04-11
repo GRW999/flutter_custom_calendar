@@ -71,7 +71,9 @@ class _WeekViewState extends State<WeekView> {
     return new GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, mainAxisSpacing: 10),
+            crossAxisCount: 7,
+            mainAxisSpacing: configuration.verticalSpacing,
+            childAspectRatio: configuration.aspectRatio),
         itemCount: 7,
         itemBuilder: (context, index) {
           DateModel dateModel = items[index];
