@@ -55,7 +55,8 @@ class _MonthViewState extends State<MonthView>
       });
     }
 
-    lineCount = DateUtil.getMonthViewLineCount(widget.year, widget.month, widget.configuration.offset);
+    lineCount = DateUtil.getMonthViewLineCount(
+        widget.year, widget.month, widget.configuration.offset);
 
     //第一帧后,添加监听，generation发生变化后，需要刷新整个日历
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -63,7 +64,10 @@ class _MonthViewState extends State<MonthView>
           .generation
           .addListener(() async {
         extraDataMap = widget.configuration.extraDataMap;
-        await getItems();
+        if (widget.configuration.nowYear == widget.year &&
+            widget.configuration.nowMonth == widget.month) {
+          await getItems();
+        }
       });
     });
   }
@@ -104,8 +108,9 @@ class _MonthViewState extends State<MonthView>
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, mainAxisSpacing: configuration.verticalSpacing,
-        childAspectRatio: configuration.aspectRatio),
+            crossAxisCount: 7,
+            mainAxisSpacing: configuration.verticalSpacing,
+            childAspectRatio: configuration.aspectRatio),
         itemCount: items.isEmpty ? 0 : items.length,
         itemBuilder: (context, index) {
           DateModel dateModel = items[index];
