@@ -104,7 +104,8 @@ class _MonthViewState extends State<MonthView>
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, mainAxisSpacing: configuration.verticalSpacing),
+            crossAxisCount: 7, mainAxisSpacing: configuration.verticalSpacing,
+        childAspectRatio: configuration.aspectRatio),
         itemCount: items.isEmpty ? 0 : items.length,
         itemBuilder: (context, index) {
           DateModel dateModel = items[index];

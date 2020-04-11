@@ -25,6 +25,9 @@ class CalendarViewWidget extends StatefulWidget {
   //默认是屏幕宽度/7
   final double itemSize;
 
+  //默认是1
+  final double aspectRatio;
+
   //日历item之间的竖直方向间距，默认10
   final double verticalSpacing;
 
@@ -35,17 +38,18 @@ class CalendarViewWidget extends StatefulWidget {
   //控制器
   final CalendarController calendarController;
 
-  CalendarViewWidget(
-      {Key key,
-      this.dayWidgetBuilder = defaultCustomDayWidget,
-      this.weekBarItemWidgetBuilder = defaultWeekBarWidget,
-      @required this.calendarController,
-      this.boxDecoration,
-      this.padding = EdgeInsets.zero,
-      this.margin = EdgeInsets.zero,
-      this.verticalSpacing = 10,
-      this.itemSize})
-      : super(key: key);
+  CalendarViewWidget({
+    Key key,
+    this.dayWidgetBuilder = defaultCustomDayWidget,
+    this.weekBarItemWidgetBuilder = defaultWeekBarWidget,
+    @required this.calendarController,
+    this.boxDecoration,
+    this.padding = EdgeInsets.zero,
+    this.margin = EdgeInsets.zero,
+    this.verticalSpacing = 10,
+    this.itemSize,
+    this.aspectRatio = 1.0,
+  }) : super(key: key);
 
   @override
   _CalendarViewWidgetState createState() => _CalendarViewWidgetState();
@@ -60,6 +64,7 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
         padding: widget.padding,
         margin: widget.margin,
         itemSize: widget.itemSize,
+        aspectRatio: widget.aspectRatio,
         verticalSpacing: widget.verticalSpacing,
         dayWidgetBuilder: widget.dayWidgetBuilder,
         weekBarItemWidgetBuilder: widget.weekBarItemWidgetBuilder);
@@ -167,8 +172,11 @@ class CalendarContainerState extends State<CalendarContainer>
               .showMode !=
           CalendarConstants.MODE_SHOW_ONLY_WEEK) {
         //月份切换的时候，如果高度发生变化的话，需要setState使高度整体自适应
-        int lineCount = DateUtil.getMonthViewLineCount(year, month, widget.calendarController.calendarConfiguration.offset);
-        double newHeight = itemHeight * (lineCount) +
+        int lineCount = DateUtil.getMonthViewLineCount(year, month,
+            widget.calendarController.calendarConfiguration.offset);
+        double newHeight = itemHeight /
+                widget.calendarController.calendarConfiguration.aspectRatio *
+                (lineCount) +
             calendarProvider.calendarConfiguration.verticalSpacing *
                 (lineCount - 1);
         LogUtil.log(

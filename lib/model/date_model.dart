@@ -80,6 +80,10 @@ class DateModel {
     return new DateTime(year, month, day);
   }
 
+  String getDate() {
+    return getDateTime().toString().split(' ')[0];
+  }
+
   //根据DateTime创建对应的model，并初始化农历和传统节日等信息
   static DateModel fromDateTime(DateTime dateTime) {
     DateModel dateModel = new DateModel()

@@ -52,7 +52,7 @@ class CalendarController {
       int maxMultiSelectCount = 9999,
       Map<DateModel, Object> extraDataMap = EMPTY_MAP,
       int offset = 0 // 首日偏移量
-    }) {
+      }) {
     assert(offset >= 0 && offset <= 6);
     LogUtil.log(TAG: this.runtimeType, message: "init CalendarConfiguration");
     //如果没有指定当前月份和年份，默认是当年时间
@@ -189,7 +189,7 @@ class CalendarController {
   }
 
   //周视图切换
-  void addWeekChangeListener(OnWeekChange listener){
+  void addWeekChangeListener(OnWeekChange listener) {
     this.calendarConfiguration.weekChangeListeners.add(listener);
   }
 
@@ -506,8 +506,8 @@ class CalendarController {
     monthList.clear();
     weekList.clear();
     calendarProvider.clearData();
-    calendarConfiguration.weekChangeListeners=null;
-    calendarConfiguration.monthChangeListeners=null;
+    calendarConfiguration.weekChangeListeners = null;
+    calendarConfiguration.monthChangeListeners = null;
   }
 }
 
